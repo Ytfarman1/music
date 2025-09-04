@@ -46,12 +46,12 @@ def trim_to_width(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> str:
     return ellipsis
 
 
-async def get_thumb(videoid: str) -> str:
-    cache_path = os.path.join(CACHE_DIR, f"{videoid}_premium.png")
+async def get_thumb(videoid: str, user_id: int = None) -> str:  # ✅ Fix: user_id optional
+    cache_path = os.path.join(CACHE_DIR, f"{videoid}_v4.png")
     if os.path.exists(cache_path):
         return cache_path
 
-    # Fetch YouTube video info
+    # YouTube video data fetch
     results = VideosSearch(f"https://www.youtube.com/watch?v={videoid}", limit=1)
     try:
         results_data = await results.next()
@@ -80,7 +80,7 @@ async def get_thumb(videoid: str) -> str:
     except Exception:
         return YOUTUBE_IMG_URL
 
-    # Base image
+    # Create base image
     base = Image.open(thumb_path).resize((1280, 720)).convert("RGBA")
     bg = ImageEnhance.Brightness(base.filter(ImageFilter.BoxBlur(10))).enhance(0.6)
 
@@ -92,11 +92,11 @@ async def get_thumb(videoid: str) -> str:
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, PANEL_W, PANEL_H), 50, fill=255)
     bg.paste(frosted, (PANEL_X, PANEL_Y), mask)
 
-    # Draw text and thumbnail
+    # Draw details
     draw = ImageDraw.Draw(bg)
     try:
-        title_font = ImageFont.truetype("AnonXMusic/assets/font2.ttf", 32)
-        regular_font = ImageFont.truetype("AnonXMusic/assets/font.ttf", 18)
+        title_font = ImageFont.truetype("SHUKLAMUSIC/assets/assets/font2.ttf", 32)
+        regular_font = ImageFont.truetype("SHUKLAMUSIC/assets/assets/font.ttf", 18)
     except OSError:
         title_font = regular_font = ImageFont.load_default()
 
@@ -115,18 +115,17 @@ async def get_thumb(videoid: str) -> str:
 
     draw.text((BAR_X, BAR_Y + 15), "00:00", fill="black", font=regular_font)
     end_text = "Live" if is_live else duration_text
-    draw.text((BAR_X + BAR_TOTAL_LEN - (90 if is_live else 60), BAR_Y + 15),
-              end_text, fill="red" if is_live else "black", font=regular_font)
+    draw.text((BAR_X + BAR_TOTAL_LEN - (90 if is_live else 60), BAR_Y + 15), end_text, fill="red" if is_live else "black", font=regular_font)
 
     # Icons
-    icons_path = "AnonXMusic/assets/play_icons.png"
+    icons_path = "SHUKLAMUSIC/assets/assets/play_icons.png"
     if os.path.isfile(icons_path):
         ic = Image.open(icons_path).resize((ICONS_W, ICONS_H)).convert("RGBA")
         r, g, b, a = ic.split()
         black_ic = Image.merge("RGBA", (r.point(lambda *_: 0), g.point(lambda *_: 0), b.point(lambda *_: 0), a))
         bg.paste(black_ic, (ICONS_X, ICONS_Y), black_ic)
 
-    # Cleanup temp
+    # Cleanup and save
     try:
         os.remove(thumb_path)
     except OSError:
