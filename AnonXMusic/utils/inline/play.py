@@ -21,6 +21,16 @@ def track_markup(_, videoid, user_id, channel, fplay):
             InlineKeyboardButton(
                 text=_["CLOSE_BUTTON"],
                 callback_data=f"forceclose {videoid}|{user_id}",
+            ),
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {videoid}|{user_id}",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
             )
         ],
     ]
@@ -59,15 +69,26 @@ def stream_markup_timer(_, chat_id, played, dur):
                 callback_data="GetTimer",
             )
         ],
-        [   
+        [
             InlineKeyboardButton(text="▷", callback_data=f"ADMIN Resume|{chat_id}"),
             InlineKeyboardButton(text="II", callback_data=f"ADMIN Pause|{chat_id}"),
             InlineKeyboardButton(text="↻", callback_data=f"ADMIN Replay|{chat_id}"),
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
         ],
+        [
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {chat_id}",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
+            )
+        ],
     ]
-    
     return buttons
 
 
@@ -79,6 +100,18 @@ def stream_markup(_, chat_id):
             InlineKeyboardButton(text="↻", callback_data=f"ADMIN Replay|{chat_id}"),
             InlineKeyboardButton(text="‣‣I", callback_data=f"ADMIN Skip|{chat_id}"),
             InlineKeyboardButton(text="▢", callback_data=f"ADMIN Stop|{chat_id}"),
+        ],
+        [
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {chat_id}",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
+            )
         ],
     ]
     return buttons
@@ -101,6 +134,16 @@ def playlist_markup(_, videoid, user_id, ptype, channel, fplay):
                 text=_["CLOSE_BUTTON"],
                 callback_data=f"forceclose {videoid}|{user_id}",
             ),
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {videoid}|{user_id}",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
+            )
         ],
     ]
     return buttons
@@ -119,6 +162,16 @@ def livestream_markup(_, videoid, user_id, mode, channel, fplay):
                 text=_["CLOSE_BUTTON"],
                 callback_data=f"forceclose {videoid}|{user_id}",
             ),
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {videoid}|{user_id}",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
+            )
         ],
     ]
     return buttons
@@ -150,6 +203,18 @@ def slider_markup(_, videoid, user_id, query, query_type, channel, fplay):
                 text="▷",
                 callback_data=f"slider F|{query_type}|{query}|{user_id}|{channel}|{fplay}",
             ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="❌ Cancel",
+                callback_data=f"cancel {videoid}|{user_id}",
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="➕ Add Me To Your Group",
+                url="https://t.me/YTVILLAIN_bot?startgroup=true",
+            )
         ],
     ]
     return buttons
