@@ -12,6 +12,10 @@ from AnonXMusic.plugins import ALL_MODULES
 from AnonXMusic.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
+# ✅ Web server import
+from web_server import start_web_server
+
+
 async def init():
     if (
         not config.STRING1
@@ -32,17 +36,25 @@ async def init():
             BANNED_USERS.add(user_id)
     except:
         pass
+
+    # Start main bot
     await app.start()
+
+    # ✅ Start web server (health check port 8080)
+    await start_web_server()
+
     for all_module in ALL_MODULES:
         importlib.import_module("AnonXMusic.plugins" + all_module)
     LOGGER("AnonXMusic.plugins").info("Successfully Imported Modules...")
+
     await userbot.start()
     await Anony.start()
+
     try:
         await Anony.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
     except NoActiveGroupCall:
         LOGGER("AnonXMusic").error(
-            "Please turn on the videochat of your log group\channel.\n\nStopping Bot..."
+            "Please turn on the videochat of your log group/channel.\n\nStopping Bot..."
         )
         exit()
     except:
