@@ -13,7 +13,7 @@ from AnonXMusic.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
 # ✅ Web server import
-from web_server import start_web_server
+from AnonXMusic.web_server import start_web_server
 
 
 async def init():
