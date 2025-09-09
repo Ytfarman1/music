@@ -12,7 +12,7 @@ from AnonXMusic.plugins import ALL_MODULES
 from AnonXMusic.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
-# ✅ Web server import
+# 🔹 Web server import
 from AnonXMusic.web_server import start_web_server
 
 
@@ -26,7 +26,9 @@ async def init():
     ):
         LOGGER(__name__).error("Assistant client variables not defined, exiting...")
         exit()
+
     await sudo()
+
     try:
         users = await get_gbanned()
         for user_id in users:
@@ -37,11 +39,7 @@ async def init():
     except:
         pass
 
-    # Start main bot
     await app.start()
-
-    # ✅ Start web server (health check port 8080)
-    await start_web_server()
 
     for all_module in ALL_MODULES:
         importlib.import_module("AnonXMusic.plugins" + all_module)
@@ -67,4 +65,8 @@ async def init():
 
 
 if __name__ == "__main__":
+    # 🔹 Start web server in background
+    start_web_server()
+
+    # 🔹 Then start bot
     asyncio.get_event_loop().run_until_complete(init())
