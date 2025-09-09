@@ -1,15 +1,13 @@
 from flask import Flask
 import threading
+app = Flask(__name__)
 
-flask_app = Flask('')
-
-@flask_app.route('/')
+@app.route('/')
 def home():
-    return "AnonXMusic Bot is alive!"
+    return "Bot is running fine on Koyeb 🚀"
 
-def run_web():
-    flask_app.run(host="0.0.0.0", port=8080)
-
+def start_web_server():
+    app.run(host="0.0.0.0", port=8080)
 def keep_alive():
     t = threading.Thread(target=run_web)
     t.daemon = True
